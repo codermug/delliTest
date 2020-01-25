@@ -14,7 +14,11 @@ class Product extends Model
         'category_id' => 1,
     ];
 
-   /* public  function category() {
+    public  function category() {
         return $this->belongsTo('categories','category_id');
-    }*/
+    }
+
+    public  function attributes() {
+        return $this->hasMany('App\Models\ProductAttributes');
+    }
 }

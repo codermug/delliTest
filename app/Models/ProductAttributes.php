@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductAttributes extends Model
 {
-    //
+    protected $guarded = array('id');
 }

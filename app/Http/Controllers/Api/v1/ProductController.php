@@ -44,9 +44,10 @@ class ProductController extends Controller
             'sku'         => 'required',
         ]);
 
-        $product = Product::create($request->all());
+        $product = Product::create($request->except('attributes'));
+        $product->attributes()->create($request->get('attributes'));
 
-        return new ProductResource($product);
+      //  return new ProductResource($product);
     }
 
     /**
