@@ -11,6 +11,11 @@
 |
 */
 
+use App\Helpers\DataConvertor;
+
 Route::get('/', function () {
-    return view('welcome');
+    $products = new DataConvertor();
+    $products->getCategories();
+    $products->getProducts();
+
 });
