@@ -16,6 +16,14 @@ use App\Helpers\DataConvertor;
 Route::get('/', function () {
     $products = new DataConvertor();
     $products->getCategories();
-    $products->getProducts();
+    $products = $products->getProducts();
+
+    foreach ($products as $product) {
+
+        $cats = \App\Helpers\FetchCategories::execute($product['category']);
+
+        print_r($cats);
+
+    }
 
 });

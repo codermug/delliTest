@@ -20,4 +20,8 @@ Route::prefix('v1')->group(function(){
 
     Route::apiResource('/products', 'Api\v1\ProductController')->only(['index']);
 
+
+    Route::apiResource('/category', 'Api\v1\CategoryController');
+    Route::apiResource('/categories', 'Api\v1\CategoryController')->only(['index']);
+
 });

@@ -18,16 +18,21 @@ class ProductTableSeeder extends Seeder
         $products = new DataConvertor();
 
         // hardcoded the insertion process because leak of time !
-        foreach ($products->getProducts() as $product) {
-            $products_to_insert[] = [
-                'category' => $product['category'],
-                'category_id' => 1,
-                'name' =>$product['name'],
-                'sku'  =>$product['sku'],
-                'price'=> $product['price']
+        foreach ($products->getProducts() as $value) {
+            $products_to_insert = [
+                'categoriesText' => $value['category'],
+                'category_id'    => 1,
+                'name'           =>$value['name'],
+                'sku'            =>$value['sku'],
+                'price'          =>$value['price']
             ];
 
+            $categories = \App\Helpers\FetchCategories::execute($value['category']);
+            $product = Product::create($products_to_insert);
+            $product->categories()->attach($categories);
         }
-        DB::table('products')->insert($products_to_insert);
+       // $now = Carbon::now('utc')->toDateTimeString();
+
+       // DB::table('products')->insert($products_to_insert);
     }
 }

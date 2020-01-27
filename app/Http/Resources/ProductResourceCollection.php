@@ -21,10 +21,9 @@ class ProductResourceCollection extends ResourceCollection
 
             array_push($products, [
                 //'data' => $this->collection,
-                'links' => [
-                    'self' => 'link-value',
-                ],
+                'id' => $product->id,
                 'category'=>$product->category,
+                'categories'=>$product->categories,
                 'name' => $product->name,
                 'sku'  => $product->sku,
                 'price' => $product->price

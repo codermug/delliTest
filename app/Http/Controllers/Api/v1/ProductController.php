@@ -41,13 +41,19 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'    => 'required',
-            'sku'         => 'required',
+            'sku'     => 'required|unique:products',
+   //         'attributes.*'=>'unique:product_attributes',
         ]);
 
         $product = Product::create($request->except('attributes'));
-        $product->attributes()->create($request->get('attributes'));
+        if($request->has('attributes')) {
+            foreach ($request->get('attributes') as $attribute) {
+                $product->attributes()->create($attribute);
+            }
+        }
 
-      //  return new ProductResource($product);
+
+        return new ProductResource($product);
     }
 
     /**
@@ -58,6 +64,8 @@ class ProductController extends Controller
     public function update(Product $product, Request $request): ProductResource
     {
         $product->update($request->all());
+
+        //$product->attributes()->update()
 
         return new ProductResource($product);
     }
