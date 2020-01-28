@@ -27,4 +27,13 @@ class Product extends Model
     public  function attributes() {
         return $this->hasMany('App\Models\ProductAttributes');
     }
+
+
+    public function updateAttribute($attribute) {
+
+        $updated_attribute = $this->attributes()->where('attr_name',$attribute['attr_name'])->first();
+        if($updated_attribute) {
+            $updated_attribute->update($attribute);
+        }
+    }
 }

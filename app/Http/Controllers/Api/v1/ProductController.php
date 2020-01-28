@@ -42,16 +42,14 @@ class ProductController extends Controller
         $request->validate([
             'name'    => 'required',
             'sku'     => 'required|unique:products',
-   //         'attributes.*'=>'unique:product_attributes',
         ]);
 
         $product = Product::create($request->except('attributes'));
-        if($request->has('attributes')) {
-            foreach ($request->get('attributes') as $attribute) {
-                $product->attributes()->create($attribute);
-            }
-        }
 
+        if($request->has('attributes')) {
+
+            $product->attributes()->createMany($request->get('attributes'));
+        }
 
         return new ProductResource($product);
     }
@@ -63,9 +61,15 @@ class ProductController extends Controller
      */
     public function update(Product $product, Request $request): ProductResource
     {
-        $product->update($request->all());
+        $product->update($request->except('attributes'));
 
-        //$product->attributes()->update()
+        // update attributes
+
+        if($request->has('attributes')) {
+            foreach ($request->get('attributes') as $attribute) {
+                $product->updateAttribute($attribute);
+            }
+        }
 
         return new ProductResource($product);
     }
@@ -79,6 +83,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return response()->json();
+        return response()->json(['status'=>'success','msg'=>'Deleted Successfully']);
     }
 }
